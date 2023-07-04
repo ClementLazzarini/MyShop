@@ -1,0 +1,74 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>MyShop</title>
+    <link rel="stylesheet" href="{% static 'market/style.css' %}">
+</head>
+<body>
+    <nav>
+        <div>
+            <img src="/media/menu.svg" alt="" id="menu-button">
+            <a href="{% url 'home' %}"><h1>MyShop</h1></a>
+        </div>
+        <div>
+            <a href="{% url 'order_list' %}"><img class="nav-img" src="/media/account.svg" alt=""></a>
+
+            {% if user.cart %}
+                <a href="{% url 'cart' %}" class="cart-link">
+                    <img class="nav-img" src="/media/cart.svg" alt="">
+                    {% if user.cart.get_total_items > 0 %}
+                        <span class="cart-quantity">{{ user.cart.get_total_items }}</span>
+                    {% endif %}
+                </a>
+            {% else %}
+                <a href="{% url 'cart' %}" class="cart-link">
+                    <img class="nav-img" src="/media/cart.svg" alt="">
+                    {% if request.session.quantity_total > 0 %}
+                        <span class="cart-quantity">{{ request.session.quantity_total }}</span>
+                    {% endif %}
+                </a>
+            {% endif %}
+        </div>
+    </nav>
+    <div class="hidden" id="login-container">
+        {% if user.is_authenticated %}
+            <p>Bonjour {{ user.username }} !</p>
+            <a href="{% url 'order_list' %}">Vos commandes</a>
+            <a href="{% url 'logout' %}">Déconnexion</a>
+        {% else %}
+            <a href="{% url 'login' %}">Connexion</a>
+            <a href="{% url 'signup' %}">S'inscrire</a>
+        {% endif %}
+    </div>
+    
+{% block content %}
+{% endblock %}
+
+<footer>
+    <h1>!!!! ATTENTION !!!</h1>
+    <p>Il s'agit d'un E-shop fictif.</p>
+    <p>Aucun produit ne vous sera envoyé.</p>
+    <p>Aucun argent ne vous sera prélevé.</p>
+    <p>Pour tester un achat utiliser la carte fictive suivante :</p>
+    <p>N° de carte : 4242 4242 4242 4242</p>
+</footer>
+
+<script>
+    document.getElementById('menu-button').addEventListener('click', function() {
+        var loginContainer = document.getElementById('login-container');
+
+        if (loginContainer.classList.contains('hidden')) {
+            loginContainer.classList.remove('hidden');
+            loginContainer.classList.add('view');
+        } else if (loginContainer.classList.contains('view')) {
+            loginContainer.classList.remove('view');
+            loginContainer.classList.add('hidden');
+        }
+    });
+</script>
+
+
+</body>
+</html>

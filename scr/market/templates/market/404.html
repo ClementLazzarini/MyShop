@@ -1,0 +1,12 @@
+{% extends 'market/base.html' %}
+
+{% block content %}
+  <section class="section-statut">
+    <div class="statut-container">
+      <img src="/media/fail.png" alt="">
+      <h1>Erreur 404</h1>
+      <h2>Quelque chose semble ne pas avoir fonctionné..</h2>
+      <a href="{% url 'home' %}" class="btn-paiement">Retour à l'accueil</a>
+    </div>
+  </section>
+{% endblock %}

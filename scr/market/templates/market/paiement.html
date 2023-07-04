@@ -1,0 +1,78 @@
+{% extends 'market/base.html' %}
+
+{% block content %}
+<section class="section-paiement">
+    <h2 class="paiement-subtitles">Ma commande</h2>
+    {% if user.cart.cart_items.all %}
+    {% for item in user.cart.cart_items.all %}
+        <div class="product-card-cart">
+            {% if item.product.thumbnail %}
+                <img src="{{ item.product.thumbnail.url }}" alt="{{ item.product.title }}">
+            {% endif %}
+            <div class="product-desc-cart">
+                <h3>{{ item.product.title }}</h3>
+                <p class="price">{{ item.product.price|floatformat:2 }}€ x {{ item.quantity }}</p>
+                <p></p>
+            </div>
+        </div>
+    {% endfor %}
+    <p class="price">Total: {{ total_price|floatformat:2 }} €</p>
+{% else %}
+    <p>Le panier est vide.</p>
+{% endif %}
+    <form action="{% url 'update_paiement_informations' %}" method="post" class="form-promo">
+        {% csrf_token %}
+        <input required type="text" name="code" placeholder="CODE PROMO">
+        <input required type="submit" value="Ajouter" class="btn-cart">
+    </form>
+
+{% if price is None %}
+    <p class="price">Total avec promo: {{ total_price|floatformat:2 }} €</p>
+{% elif price == 0 %}
+    <p class="price">Total avec promo: 0 €</p>
+{% else %}
+    <p class="price">Total avec promo: {{ price|floatformat:2 }} €</p>
+{% endif %}
+<h2 class="paiement-subtitles">Informations de livraison</h2>
+
+    <form method="POST" action="{% url 'process_payment' %}" class="form-paiement">
+        {% csrf_token %}
+        <div class="name">
+            <p>
+                <input required id="prenom" type="text" name="prenom" value="{{ user.first_name }}" placeholder="Prénom *">
+            </p>
+            <p>
+                <input required id="nom" type="text" name="nom" value="{{ user.last_name }}" placeholder="Nom *">
+            </p>
+        </div>
+        
+            <input required id="email" type="email" name="email" value="{{ user.email }}" placeholder="Email *">
+        </p>
+        <p>
+            <input required id="phone" type="tel" name="phone" value="{{ user.phone }}" placeholder="Téléphone *">
+        </p>
+        <p>
+            <input required id="address" type="text" name="address" value="{{ user.address }}" placeholder="Adresse *">
+        </p>
+        <div class="name">
+            <p>
+                <input required id="zip" type="text" name="zip" value="{{ user.zip_code }}" placeholder="Code Postal *">
+            </p>
+            <p>
+                <input required id="city" type="text" name="phone" value="{{ user.city }}" placeholder="Ville *">
+            </p>
+        </div>
+        <div class="btn-container-paiement">
+            {% if price is None %}
+                <button type="submit" class="btn-paiement">Payer {{ total_price|floatformat:2 }}€</button>
+            {% elif price == 0 %}
+                <button type="submit" class="btn-paiement">Payer 0 €</button>
+            {% else %}
+                <button type="submit" class="btn-paiement">Payer {{ price|floatformat:2 }}€</button>
+            {% endif %}
+            
+        </div>
+    </form>
+</section>
+
+{% endblock %}

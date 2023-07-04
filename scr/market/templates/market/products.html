@@ -1,0 +1,36 @@
+{% extends 'market/base.html' %}
+
+{% block content %}
+    <section class="section-products">
+        <h2 id="subtitles" class="subtitles">Nos Produits</h2>
+
+        <form method="GET" class="form-index" action="{% url 'products' %}">
+            <div class="search-input-wrapper">
+                <input type="text" name="search" placeholder="Rechercher un article">
+                <img class="search-icon" src="/media/loupe.png" alt="Loupe">
+            </div>
+            <button type="submit" class="hidden">Rechercher</button>
+        </form>
+        {% if products %}
+            {% for product in products %}
+                {% if product.stock > 0 %}
+                    <div class="product-index">
+                        {% if product.thumbnail %}
+                            <img src="{{ product.thumbnail.url }}" alt="{{ product.title }}">
+                        {% endif %}
+                        <div class="product-index-desc">
+                            <div class="desc-title">
+                                <h3>{{ product.title }}</h3>
+                                <p>Plus que {{ product.stock }} en stock !</p>
+                            </div>
+                            <h4>{{ product.price|floatformat:2 }}€</h4>
+                            <a href="{{ product.get_absolute_url }}">Voir l'article</a>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        {% else %}
+            <p class="zero-product">Aucun produit correspondant trouvé</p>
+        {% endif %}
+    </section>
+{% endblock %}

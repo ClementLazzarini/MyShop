@@ -1,0 +1,27 @@
+{% extends 'market/base.html' %}
+
+{% block content %}
+<section class="section-order-history">
+  <h2 class="paiement-subtitles">Mes commandes</h2>
+    {% if orders %}
+        {% for order in orders reversed%}
+          <div class="order">
+            <h3>Commande N°{{ order.order_number }}</h3>
+            <p>Date de commande : {{ order.date }}</p>
+            <p>Statut de la commande : {{ order.statut }}</p>
+            <h4>Produits :</h4>
+            <ul>
+              {% for item in order.order_items.all %}
+                <li class="price">{{ item.product.title }} x {{ item.quantity }}</li>
+              {% endfor %}
+            </ul>
+            <p class="price">Prix total : {{ order.total_price }} €</p>
+          </div>
+        {% endfor %}
+          
+    {% else %}
+      <p>Aucune commande trouvée.</p>
+    {% endif %}
+</section>
+  
+{% endblock %}

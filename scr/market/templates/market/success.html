@@ -1,0 +1,12 @@
+{% extends 'market/base.html' %}
+
+{% block content %}
+  <section class="section-statut">
+    <div class="statut-container">
+      <img src="/media/success.png" alt="">
+      <h1>Paiement réussi !</h1>
+      <h2>Merci pour votre achat !</h2>
+      <a href="{% url 'home' %}" class="btn-paiement">Retour à l'accueil</a>
+    </div>
+  </section>
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends 'market/base.html' %}
+
+{% block content %}
+    <div class="product_detail">
+        <h4 class="subtitles">{{ product.title }}</h4>
+        {% if product.thumbnail %}
+            <img src="{{ product.thumbnail.url }}" alt="{{ product.title }}">
+        {% endif %}
+        <p>{{ product.description }}</p>
+        <h3 class="price">{{ product.price|floatformat:2 }} €</h3>
+        <a href="{% url 'add_to_cart' product.slug %}">Ajouter au panier</a>
+    </div>
+    
+    
+{% endblock %}

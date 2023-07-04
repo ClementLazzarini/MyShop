@@ -1,0 +1,25 @@
+{% extends 'accounts/base.html' %}
+
+{% block content %}
+<section class="section-log">
+  <div class="statut-container">
+    <h1>Créer un compte</h1>
+    <form method="POST">
+      {% csrf_token %}
+      <p>
+        <input required id="username" type="text" name="username" placeholder="Pseudo *">
+      </p>
+      <p>
+        <input required id="password" type="password" name="password" placeholder="Mot de passe *">
+      </p>
+      <p>
+        <input required id="email" type="email" name="email" placeholder="Adresse mail *">
+      </p>
+      <p>{{ error_message }}</p>
+      <button type="submit" class="btn-paiement">Rejoignez MyShop</button>
+    </form>
+    <a href="{% url 'login' %}">Déjà un compte ? Connectez-vous</a>
+
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,52 @@
+{% extends 'market/base.html' %}
+
+{% block content %}
+<section class="section-cart">
+    <h2 class="subtitles">Mon Panier</h2>
+    {% if user.cart%}
+        {% if user.cart.cart_items.all %}
+            {% for item in user.cart.cart_items.all %}
+            <div class="product-card-cart">
+                {% if item.product.thumbnail %}
+                    <img src="{{ item.product.thumbnail.url }}" alt="{{ item.product.title }}">
+                {% endif %}
+                <div class="product-desc-cart">
+                    <h3>{{ item.product.title }}</h3>
+                    <p class="price">{{ item.product.price|floatformat:2 }}€</p>
+                    <form action="{% url 'update_cart' item.id %}" method="post">
+                        {% csrf_token %}
+                        <input type="number" name="quantity" value="{{ item.quantity }}" min="1" max="{{ item.product.stock }}">
+                        <input type="submit" value="Modifier" class="btn-cart">
+                    </form>
+                </div>
+            </div>
+            {% endfor %}
+        <p class="price">Total: {{ user.cart.get_total_price|floatformat:2 }}€ TTC</p>
+        {% else %}
+        <p>Le panier est vide.</p>
+        {% endif %}
+    {% else %}
+        {% for item in products %}
+            <div class="product-card-cart">
+                {% if item.product.thumbnail %}
+                    <img src="{{ item.product.thumbnail.url }}" alt="{{ item.product.title }}">
+                {% endif %}
+                <div class="product-desc-cart">
+                    <h3>{{ item.product.title }}</h3>
+                    <p class="price">{{ item.product.price|floatformat:2 }}€</p>
+                    <form action="{% url 'update_cart' item.product.id %}" method="post">
+                        {% csrf_token %}
+                        <input type="number" name="quantity" value="{{ item.quantity }}" min="1" max="{{ item.product.stock }}">
+                        <input type="submit" value="Modifier" class="btn-cart">
+                    </form>
+                </div>
+            </div>
+            {% endfor %}
+        <p class="price">Total: {{ total_price|floatformat:2 }}€ TTC</p>
+    {% endif %}
+    <div class="btn-container">
+        <a href="{% url 'delete_cart' %}" class="btn-incart">Supprimer le panier</a>
+        <a href="{% url 'paiement_informations' %}" class="btn-incart">Paiement</a>
+    </div>
+</section>
+{% endblock %}
