@@ -11,26 +11,24 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
-import environ
-
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 import stripe
+import environ
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 env = environ.Env()
-environ.Env.read_env(env_file=str(BASE_DIR / "fshop" / ".env"))
-
+environ.Env.read_env(env_file=str(BASE_DIR/"fshop"/".env"))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = env('SECRET_KEY')
+SECRET_KEY = env("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = env.bool("DEBUG", False)
+DEBUG = env.bool("DEBUG")
 
 ALLOWED_HOSTS = env.list("ALLOWED_HOSTS")
 
@@ -137,9 +135,9 @@ MEDIA_ROOT = BASE_DIR / "mediafiles"
 
 AUTH_USER_MODEL = 'accounts.Shopper'
 
-STRIPE_API_KEY = env('STRIPE_API_KEY')
+STRIPE_API_KEY = env("STRIPE_API_KEY")
 stripe.api_key = STRIPE_API_KEY
-STRIPE_WEBHOOK_SECRET = env('STRIPE_WEBHOOK_SECRET')
+STRIPE_WEBHOOK_SECRET = env("STRIPE_WEBHOOK_SECRET")
 
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'
 

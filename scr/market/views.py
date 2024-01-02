@@ -262,7 +262,8 @@ def process_payment(request):
     cart = Cart.objects.get(user=request.user)
 
     # Récupérer les informations de la commande (somme totale, informations de livraison)
-    total_price = request.session.get('total_price')
+    total_price_str = request.session.get('total_price')
+    total_price = float(total_price_str)
 
     if not request.session.get('discount_name'):
         discount_name = ''
@@ -343,8 +344,8 @@ def process_payment(request):
                 'quantity': 1,
             }],
             mode='payment',
-            success_url='http://localhost:8000/success/',
-            cancel_url='http://localhost:8000/cancel/',
+            success_url='http://127.0.0.1:8000/success/',
+            cancel_url='http://127.0.0.1:8000/cancel/',
         )
 
         # Mettre à jour le stock des produits

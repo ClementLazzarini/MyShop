@@ -16,11 +16,10 @@
 }
 
 html{
-    scroll-behavior: smooth;
-    min-width: 320px;
     max-width: 550px;
     margin: 0 auto;
 }
+
 
 body{
     background-color: #FFFFFF;
@@ -117,7 +116,7 @@ h1{
 }
 
 .slider-1 {
-    max-width: 600px;
+    max-width: 100%;
     overflow: hidden;
     position: relative;
 }
