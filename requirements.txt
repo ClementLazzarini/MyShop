@@ -7,7 +7,7 @@ Django==4.2.26
 idna==3.4
 Pillow==9.5.0
 pycparser==2.21
-pyOpenSSL==23.1.1
+pyOpenSSL==26.0.0
 python-dotenv==1.0.0
 requests==2.30.0
 six==1.16.0
